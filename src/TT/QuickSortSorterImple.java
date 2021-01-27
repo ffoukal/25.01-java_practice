@@ -14,31 +14,36 @@ public class QuickSortSorterImple<T> implements Sorter<T>{
         if (begin < end) {
             int partitionIndex = partition(arr, begin, end, c);
 
-            quickSort(arr, begin, partitionIndex-1, c);
+            quickSort(arr, begin, partitionIndex, c);
             quickSort(arr, partitionIndex+1, end, c);
         }
     }
 
-    private int partition(T arr[], int begin, int end, Comparator<T> c) {
-        T pivot = arr[end];
-        int i = (begin-1);
 
-        for (int j = begin; j < end; j++) {
+    public int partition(T[] arr, int low, int high, Comparator<T> c) {
+        if (arr ==null || arr.length==0){
+            throw new RuntimeException("Empty array");
+        }
+        T pivot = arr[high];
+        int i = (low-1); // smaller element index
 
-            //if(arr[j] <= pivot)
+        for (int j = low; j < high; j++) {
+            // check if current element is less than or equal to pi
             if (c.compare(arr[j], pivot) <= 0) {
                 i++;
-
-                T swapTemp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = swapTemp;
+                swap(arr, i, j);
             }
         }
 
-        T swapTemp = arr[i+1];
-        arr[i+1] = arr[end];
-        arr[end] = swapTemp;
+        // swap intArray[i+1] and intArray[high] (or pi)
+        swap(arr, i + 1, high);
 
         return i+1;
+    }
+
+    private void swap(T[] arr, int a, int b){
+        T swapTemp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = swapTemp;
     }
 }
